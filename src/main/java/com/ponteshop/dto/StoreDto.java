@@ -1,0 +1,22 @@
+package com.ponteshop.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class StoreDto {
+    private Integer id;
+    private String name;
+    private String slug;
+    private String baseUrl;
+    private String logoUrl;
+    private String country;
+    private boolean isActive;
+    private Integer displayOrder;
+}
+

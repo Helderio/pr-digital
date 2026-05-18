@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: prdigital-db
+    environment:
+      POSTGRES_DB: prdigital
+      POSTGRES_USER: prdigital_user
+      POSTGRES_PASSWORD: prdigital_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - prdigital_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U prdigital_user -d prdigital"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    container_name: prdigital-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/prdigital
+      SPRING_DATASOURCE_USERNAME: prdigital_user
+      SPRING_DATASOURCE_PASSWORD: prdigital_password
+      JWT_SECRET: ${JWT_SECRET:-dev-only-change-this-secret-with-at-least-32-chars}
+      FIRECRAWL_API_KEY: ${FIRECRAWL_API_KEY:-}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:5173,http://127.0.0.1:5173}
+    ports:
+      - "8080:8080"
+
+volumes:
+  prdigital_postgres_data:
