@@ -1,0 +1,5 @@
+com/ponteshop/util/FirecrawlClientTest.class
+com/ponteshop/util/StoreUrlValidatorTest.class
+com/ponteshop/service/ProductImportServiceTest.class
+com/ponteshop/service/CartServiceTest.class
+com/ponteshop/service/PriceCalculatorServiceTest.class

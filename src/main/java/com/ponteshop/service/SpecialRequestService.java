@@ -12,7 +12,6 @@ import com.ponteshop.enums.ImportedBy;
 import com.ponteshop.enums.ProductStatus;
 import com.ponteshop.enums.SpecialRequestStatus;
 import com.ponteshop.exception.ImportFailedException;
-import com.ponteshop.exception.InvalidStoreUrlException;
 import com.ponteshop.exception.ResourceNotFoundException;
 import com.ponteshop.exception.SpecialRequestStateException;
 import com.ponteshop.repository.ProductRepository;
@@ -23,6 +22,7 @@ import com.ponteshop.repository.UserRepository;
 import com.ponteshop.util.FirecrawlClient;
 import com.ponteshop.util.JsonMapper;
 import com.ponteshop.util.ProductExtraction;
+import com.ponteshop.util.StoreUrlValidator;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
@@ -54,10 +54,7 @@ public class SpecialRequestService {
         if (!store.isActive()) {
             throw new ResourceNotFoundException("Loja não encontrada");
         }
-        String base = store.getBaseUrl() == null ? "" : store.getBaseUrl().replaceAll("/+$", "");
-        if (base.isEmpty() || !url.startsWith(base)) {
-            throw new InvalidStoreUrlException("URL não pertence à loja " + store.getName());
-        }
+        StoreUrlValidator.requireBelongsToStore(url, store);
 
         SpecialRequest request = SpecialRequest.builder()
             .user(userRepository.getReferenceById(userId))

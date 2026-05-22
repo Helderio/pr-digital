@@ -6,24 +6,17 @@ Use `render.yaml` from this repository root.
 
 Set these environment variables in Render:
 
-- `SPRING_DATASOURCE_URL`: `jdbc:postgresql://<aiven-host>:<port>/<database>?sslmode=require`
-- `SPRING_DATASOURCE_USERNAME`: Aiven PostgreSQL user
-- `SPRING_DATASOURCE_PASSWORD`: Aiven PostgreSQL password
 - `JWT_SECRET`: strong 32+ character secret
 - `FIRECRAWL_API_KEY`: Firecrawl key
 - `CORS_ALLOWED_ORIGINS`: production frontend origin, for example `https://prdigital.vercel.app`
 
 Render health check path: `/actuator/health`.
 
-## Database: Aiven PostgreSQL
+## Database: Render PostgreSQL
 
-Create PostgreSQL 15+ and copy the connection details. For JDBC, use the `jdbc:postgresql://` form with `sslmode=require`.
-
-Example:
-
-```text
-jdbc:postgresql://pg-xxxxx.aivencloud.com:12345/defaultdb?sslmode=require
-```
+We now use a managed PostgreSQL database natively defined in the `render.yaml` Blueprint.
+Render will automatically provision the database instance (`prdigital-db`) and inject the credentials directly into the backend service at runtime.
+No manual database setup or copy-pasting is required.
 
 ## Frontend: Vercel
 

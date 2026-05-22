@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Component;
 public class FirecrawlClient {
 
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+    private static final Pattern DECIMAL_TEXT = Pattern.compile("(\\d+[\\d\\s.,]*)");
 
     private final FirecrawlApiProperties properties;
     private final ObjectMapper objectMapper;
@@ -191,10 +194,33 @@ public class FirecrawlClient {
 
     private static BigDecimal decimal(JsonNode n, String field) {
         JsonNode v = n.path(field);
-        if (v.isMissingNode() || v.isNull() || !v.isNumber()) {
+        if (v.isMissingNode() || v.isNull()) {
             return null;
         }
-        return v.decimalValue();
+        if (v.isNumber()) {
+            return v.decimalValue();
+        }
+        if (!v.isTextual()) {
+            return null;
+        }
+        String raw = v.asText("");
+        Matcher matcher = DECIMAL_TEXT.matcher(raw);
+        if (!matcher.find()) {
+            return null;
+        }
+        String text = matcher.group(1).replace(" ", "");
+        int comma = text.lastIndexOf(',');
+        int dot = text.lastIndexOf('.');
+        if (comma >= 0 && dot >= 0) {
+            text = comma > dot ? text.replace(".", "").replace(',', '.') : text.replace(",", "");
+        } else if (comma >= 0) {
+            text = text.replace(',', '.');
+        }
+        try {
+            return new BigDecimal(text);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     private List<String> readStringList(JsonNode arr) {

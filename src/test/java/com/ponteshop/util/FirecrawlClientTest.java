@@ -65,6 +65,26 @@ class FirecrawlClientTest {
     }
 
     @Test
+    void scrapeProduct_parsesTextPrice() {
+        String body = """
+            {
+              "success": true,
+              "data": {
+                "extract": {
+                  "name": "Casaco",
+                  "priceEur": "€ 1.299,95"
+                }
+              }
+            }
+            """;
+        server.enqueue(new MockResponse().setBody(body).addHeader("Content-Type", "application/json"));
+
+        ProductExtraction ex = client.scrapeProduct("https://loja.pt/p/2");
+
+        assertThat(ex.priceEur()).isEqualByComparingTo(new BigDecimal("1299.95"));
+    }
+
+    @Test
     void scrapeProduct_throwsWhenSuccessFalse() {
         server.enqueue(new MockResponse().setBody("{\"success\":false}").addHeader("Content-Type", "application/json"));
 

@@ -1,6 +1,7 @@
 /home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/exception/ImportFailedException.java
 /home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/enums/ImportedBy.java
 /home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/dto/OrderSummaryDto.java
+/home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/util/StoreUrlValidator.java
 /home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/entity/CartItem.java
 /home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/dto/TrackingDto.java
 /home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/exception/SpecialRequestStateException.java
@@ -38,6 +39,7 @@
 /home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/exception/ResourceNotFoundException.java
 /home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/dto/UpdateStatusRequest.java
 /home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/dto/StoreDto.java
+/home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/config/DatabaseConfig.java
 /home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/enums/CartItemType.java
 /home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/controller/AuthController.java
 /home/helderio/Projetos/Ativos/project_monopolio/src/main/java/com/ponteshop/dto/OrderDetailDto.java
